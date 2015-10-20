@@ -2,21 +2,6 @@ package com.jhood.battlebot
 
 import scala.util.parsing.combinator.RegexParsers
 
-
-object South extends Direction("south")
-object North extends Direction("north")
-sealed abstract class Direction(val name: String)
-
-case class Card(suite: String, value: Int)
-
-case class FlagCards(flag: Int, direction: Direction, cards: List[Card]) extends GameMessage
-case class FlagClaimStatus(status: List[Option[Direction]]) extends GameMessage
-case class PlayerHand(direction: Direction, cards: List[Card]) extends GameMessage
-case class ColorsDeclaration(colors: List[String]) extends GameMessage
-case class NameRequest(direction: Direction) extends GameMessage
-sealed abstract class GameMessage()
-
-
 object MessageParser extends RegexParsers {
 
   implicit class ExtendedLists[T](l: List[T]) {
