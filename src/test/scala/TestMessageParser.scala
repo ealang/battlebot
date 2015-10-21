@@ -61,5 +61,9 @@ class TestMessageParser extends WordSpec with Matchers {
     "parse a go-play message" in {
       MessageParser("go play-card") should be (PlayCard())
     }
+
+    "throw exceptions for invalid messages" in {
+      an [MessageParseException] should be thrownBy( MessageParser("kittens") )
+    }
   }
 }
