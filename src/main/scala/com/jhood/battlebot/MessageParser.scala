@@ -2,6 +2,8 @@ package com.jhood.battlebot
 
 import scala.util.parsing.combinator.RegexParsers
 
+case class MessageParseException(msg: String) extends Exception(msg)
+
 object MessageParser extends RegexParsers {
 
   def direction: Parser[Direction] = ("north" | "south") ^^ { s =>
@@ -48,8 +50,8 @@ object MessageParser extends RegexParsers {
 
   def message: Parser[GameMessage] = (nameRequest | colorDeclaration | playerHand | claimStatus | flagCards | opponentPlay)
 
-  def apply(input: String): Option[GameMessage] = parseAll(message, input) match {
-    case Success(result, _) => Some(result)
-    case x => println(x); None
+  def apply(input: String): GameMessage = parseAll(message, input) match {
+    case Success(result, _) => result
+    case x => throw MessageParseException(x.toString)
   }
 }
