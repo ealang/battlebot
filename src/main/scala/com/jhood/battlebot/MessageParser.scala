@@ -5,7 +5,6 @@ import scala.util.parsing.combinator.RegexParsers
 case class MessageParseException(msg: String) extends Exception(msg)
 
 object MessageParser extends RegexParsers {
-
   def direction: Parser[Direction] = ("north" | "south") ^^ { s =>
     if(s.toString() == "north") North
     else South

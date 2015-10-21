@@ -15,4 +15,8 @@ package object battlebot {
   case class ColorsDeclaration(colors: List[String]) extends GameMessage
   case class NameRequest(direction: Direction) extends GameMessage
   sealed abstract class GameMessage()
+
+  case class PlayCardResponse(flag: Int, card: Card) extends ResponseMessage
+  case class NameSet(direction: Direction, name: String) extends ResponseMessage
+  sealed abstract class ResponseMessage()
 }
