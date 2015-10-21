@@ -7,6 +7,7 @@ package object battlebot {
 
   case class Card(suite: String, value: Int)
 
+  case class OpponentPlay(flag: Int, card: Card) extends GameMessage
   case class FlagCards(flag: Int, direction: Direction, cards: List[Card]) extends GameMessage
   case class FlagClaimStatus(status: List[Option[Direction]]) extends GameMessage
   case class PlayerHand(direction: Direction, cards: List[Card]) extends GameMessage

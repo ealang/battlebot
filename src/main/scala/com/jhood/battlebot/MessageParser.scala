@@ -4,50 +4,49 @@ import scala.util.parsing.combinator.RegexParsers
 
 object MessageParser extends RegexParsers {
 
-  implicit class ExtendedLists[T](l: List[T]) {
-    def toCards: List[Card] = l.map{
-      case color ~ "," ~ value => Card(color.toString(), value.toString().toInt)
-    }
+  def direction: Parser[Direction] = ("north" | "south") ^^ { s =>
+    if(s.toString() == "north") North
+    else South
   }
 
-  implicit class ExtendedStrings(s: String) {
-    def toDirection: Direction = if(s == "north") North else South
-    def toOptionalDirection: Option[Direction] =
-      if(s == "unclaimed") None
-      else Some(toDirection)
+  def flagClaim: Parser[Option[Direction]] = ("unclaimed" | direction) ^^ {
+    case d : Direction => Some(d)
+    case "unclaimed" => None
   }
 
-  def direction = "north" | "south"
+  def color: Parser[String] = """[a-z0-9]+""".r ^^ { _.toString }
 
-  def color = """[a-z0-9]+""".r
+  def value: Parser[Int] = """[0-9]+""".r ^^ { _.toInt }
 
-  def value = """[0-9]+""".r
-
-  def card = color ~ "," ~ value
-
-  def flag_claim = "unclaimed" | direction
-
-  def name_request: Parser[GameMessage] = "player" ~ direction ~ "name" ^^  {
-    case _ ~ dir ~ _ => NameRequest(dir.toDirection)
+  def card: Parser[Card] = (color ~ "," ~ value) ^^ {
+    case color ~ "," ~ value => Card(color, value)
   }
 
-  def colors_declaration: Parser[GameMessage] = "colors " ~ repN(6, color) ^^ {
+  def nameRequest: Parser[GameMessage] = ("player" ~ direction ~ "name") ^^  {
+    case _ ~ dir ~ _ => NameRequest(dir)
+  }
+
+  def colorDeclaration: Parser[GameMessage] = ("colors " ~ repN(6, color)) ^^ {
     case (_ ~ colors) => ColorsDeclaration(colors)
   }
 
-  def player_hand: Parser[GameMessage] = "player" ~ direction ~ "hand" ~ rep(card) ^^ {
-    case (_ ~ dir ~ _ ~ cards) => PlayerHand(dir.toDirection, cards.toCards)
+  def playerHand: Parser[GameMessage] = ("player" ~ direction ~ "hand" ~ rep(card)) ^^ {
+    case (_ ~ dir ~ _ ~ cards) => PlayerHand(dir, cards)
   }
 
-  def claim_status: Parser[GameMessage] = "flag claim-status" ~ repN(9, flag_claim) ^^ {
-    case _ ~ claims => FlagClaimStatus(claims.map(_.toOptionalDirection))
+  def claimStatus: Parser[GameMessage] = ("flag claim-status" ~ repN(9, flagClaim)) ^^ {
+    case _ ~ claims => FlagClaimStatus(claims)
   }
 
-  def flag_cards: Parser[GameMessage] = "flag" ~ value ~ "cards" ~ direction ~ rep(card) ^^ {
-    case _ ~ flag_index ~ _ ~ dir ~ cards => FlagCards(flag_index.toInt, dir.toDirection, cards.toCards)
+  def flagCards: Parser[GameMessage] = ("flag" ~ value ~ "cards" ~ direction ~ rep(card)) ^^ {
+    case _ ~ flag_index ~ _ ~ dir ~ cards => FlagCards(flag_index.toInt, dir, cards)
   }
 
-  def message: Parser[GameMessage] = name_request | colors_declaration | player_hand | claim_status | flag_cards
+  def opponentPlay: Parser[GameMessage] = ("opponent play" ~ value ~ card) ^^ {
+    case _ ~ flag_index ~ played_card => OpponentPlay(flag_index, played_card)
+  }
+
+  def message: Parser[GameMessage] = (nameRequest | colorDeclaration | playerHand | claimStatus | flagCards | opponentPlay)
 
   def apply(input: String): Option[GameMessage] = parseAll(message, input) match {
     case Success(result, _) => Some(result)
