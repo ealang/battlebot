@@ -57,5 +57,9 @@ class TestMessageParser extends WordSpec with Matchers {
         OpponentPlay(1,Card("color3", 4))
       )
     }
+
+    "parse a go-play message" in {
+      MessageParser("go play-card") should be (PlayCard())
+    }
   }
 }

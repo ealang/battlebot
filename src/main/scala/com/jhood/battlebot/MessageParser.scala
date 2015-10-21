@@ -48,7 +48,17 @@ object MessageParser extends RegexParsers {
     case _ ~ flag_index ~ played_card => OpponentPlay(flag_index, played_card)
   }
 
-  def message: Parser[GameMessage] = (nameRequest | colorDeclaration | playerHand | claimStatus | flagCards | opponentPlay)
+  def goPlay: Parser[GameMessage] = "go play-card" ^^ { _ => PlayCard() }
+
+  def message: Parser[GameMessage] =
+    ( nameRequest
+    | colorDeclaration
+    | playerHand
+    | claimStatus
+    | flagCards
+    | opponentPlay
+    | goPlay)
+
 
   def apply(input: String): GameMessage = parseAll(message, input) match {
     case Success(result, _) => result
