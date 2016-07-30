@@ -20,7 +20,7 @@ class TestRandomStrategy extends WordSpec with Matchers {
     "respond with a name" in {
       assertRequestResponse(
         NameRequest(North),
-        NameSet(North, "RandomStrategy")
+        NameSet(North, "darthbagel")
       )
     }
 
