@@ -14,4 +14,14 @@ This project uses SBT for its builds. SBT and the JVM must be installed for this
 sbt test
 ```
 
+Creating a Distributable Jar
+----------------------------
+
+The assembly task can be used to create a single JAR distribution of the bot. The
+bot can be executed with a simple ``java -jar`` command.
+
+``` bash
+sbt assembly
+java -jar target/scala-2.11/battlebot_scala-assembly-1.0.jar
+```
 
