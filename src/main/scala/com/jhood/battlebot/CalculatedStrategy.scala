@@ -4,7 +4,7 @@ package com.jhood.battlebot
 import scala.concurrent.Future
 import scala.collection.mutable.Map
 
-class BreakthroughStrategy extends Strategy {
+class CalculatedStrategy(calc: MoveCalculator) extends Strategy {
   var myDirection: Direction = North
 
   var myFlags: Map[Int,List[Card]] = Map(
@@ -18,6 +18,8 @@ class BreakthroughStrategy extends Strategy {
     5 -> List(), 6 -> List(), 7 -> List(), 8 -> List(),
     9 -> List()
   )
+
+  var claimedFlags: Map[Int,Direction] = Map()
 
   var hand: List[Card] = List()
  
@@ -33,8 +35,14 @@ class BreakthroughStrategy extends Strategy {
       case PlayerHand(dir,cards) => 
         hand = cards
         None
+      case FlagClaimStatus(status) =>
+        status.zip(1 to 10).foreach {
+          case (Some(dir),flag) => claimedFlags += ((flag,dir))
+          case _ =>
+        }
+        None
       case PlayCard() => 
-        Some(PlayCardResponse(1, Card("color1",1)))
+        Some(calc.compute_flag(hand,myFlags.toMap,opponentFlags.toMap))
       case _ => 
         None
     }
