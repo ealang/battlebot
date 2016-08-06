@@ -1,0 +1,20 @@
+
+if [ $# -eq 2 ]; then
+	echo "Run game!"
+	mkdir -p /tmp/bot1
+	mkdir -p /tmp/bot2
+
+	cp $(pwd)/target/scala-2.11/battlebot*.jar /tmp/bot1/battlebot.jar
+	cp $(pwd)/target/scala-2.11/battlebot*.jar /tmp/bot2/battlebot.jar
+
+	echo "java -jar battlebot.jar $1" > /tmp/bot1/run-command
+	echo "java -jar battlebot.jar $2" > /tmp/bot2/run-command
+
+	sudo docker run -it -v /tmp/bot1:/home/battleline/player1 \
+		-v /tmp/bot2:/home/battleline/player2 \
+		jonathanhood/battleline
+else
+	echo "Usage: ./runGame <strategy1> <strategy2>"
+	echo "  strategies available: dumb, highest"
+fi
+
