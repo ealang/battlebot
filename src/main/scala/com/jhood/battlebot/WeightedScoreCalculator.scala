@@ -2,20 +2,33 @@ package com.jhood.battlebot
 
 class WeightedScoreCalculator extends MoveCalculator {
 
+  // This strategy prefers to take flags 3 and 7 as well as those 
+  // surrounding. As cards are played these weights lower - increasing
+  // the probability tha cards will be "spread out" rather than 
+  // immediately playing to complete the flag.
+
   val baseWeights: Map[Int,Int] = Map(
     1 -> 1, //
     2 -> 2, ////
-    3 -> 4, ////////
-    4 -> 3, //////
-    5 -> 2, ////
+    3 -> 2, ////
+    4 -> 2, ////
+    5 -> 1, //
     6 -> 3, //////
-    7 -> 4, ////////
-    8 -> 2, ////
+    7 -> 3, //////
+    8 -> 3, //////
     9 -> 1  //
   )
-
+  
   def weights(myFlags: Map[Int, List[Card]]) = 
-    baseWeights.map(orig => (orig._1, orig._2 + myFlags.getOrElse(orig._1, List()).size))
+    baseWeights.map(orig => (orig._1, calcWeight(orig._1,myFlags.getOrElse(orig._1, List()).size)))
+
+  def calcWeight(flagNum: Int, numCards: Int): Int = {
+    val startingWeight = baseWeights.getOrElse(flagNum,0)
+    val calculatedWeight = startingWeight - numCards
+    if(calculatedWeight < 1) 1
+    else calculatedWeight
+  }
+     
 
   def compute_play(
                     hand: List[Card],
