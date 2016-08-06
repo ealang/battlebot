@@ -19,8 +19,11 @@ object BattleBot {
     case Array("highest") => 
       System.err.println("Chose highest score strategy")
       new HighestScoreStrategy
+    case Array("weighted") =>
+      System.err.println("Chose weighted score strategy")
+      new WeightedScoreStrategy
     case _ => 
       System.err.println("Chose default strategy")
-      new HighestScoreStrategy
+      new WeightedScoreStrategy
   }
 }

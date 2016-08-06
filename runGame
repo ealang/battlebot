@@ -15,6 +15,6 @@ if [ $# -eq 2 ]; then
 		jonathanhood/battleline
 else
 	echo "Usage: ./runGame <strategy1> <strategy2>"
-	echo "  strategies available: dumb, highest"
+	echo "  strategies available: dumb, highest, weighted"
 fi
 
