@@ -4,7 +4,7 @@ package com.jhood.battlebot
 import scala.concurrent.Future
 import scala.collection.mutable.Map
 
-class CalculatedStrategy(calc: MoveCalculator) extends Strategy {
+class CalculatedStrategy(playerName: String, calc: MoveCalculator) extends Strategy {
   var myDirection: Direction = North
 
   var myFlags: Map[Int,List[Card]] = Map(
@@ -27,7 +27,7 @@ class CalculatedStrategy(calc: MoveCalculator) extends Strategy {
     msg match {
       case NameRequest(direction) => 
         myDirection = direction
-        Some(NameSet(direction, "darthbagel"))
+        Some(NameSet(direction, playerName))
       case FlagCards(flag,direction,cards) =>
         if(direction == myDirection) myFlags += ((flag,cards))
         else opponentFlags += ((flag,cards))

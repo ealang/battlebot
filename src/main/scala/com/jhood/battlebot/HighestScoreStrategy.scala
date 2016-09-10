@@ -1,3 +1,3 @@
 package com.jhood.battlebot
 
-class HighestScoreStrategy extends CalculatedStrategy(new HighestScoreCalculator)
+class HighestScoreStrategy extends CalculatedStrategy("highest", new HighestScoreCalculator)
