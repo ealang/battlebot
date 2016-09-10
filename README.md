@@ -1,9 +1,9 @@
-BattleBot
-=========
+BattleBot Core
+==============
 
-BattleBot is a scala engine for playing the Battleline game. Bots can be pitted against each other by using the [battleline ai engine](https://bitbucket.org/patrick_viafore/battlelineaiengine). 
+BattleBot Core is a scala library used to build bots for the [Battleline ai engine](https://bitbucket.org/patrick_viafore/boardgameaiengine). 
 
-[![Coverage Status](https://coveralls.io/repos/jonathanhood/battlebot/badge.svg?branch=master&service=github)](https://coveralls.io/github/jonathanhood/battlebot?branch=master) [![Build Status](https://travis-ci.org/jonathanhood/battlebot.svg?branch=master)](https://travis-ci.org/jonathanhood/battlebot)
+This project is the core from [jonathanhood/battlebot](https://github.com/jonathanhood/battlebot).
 
 Building and Running the Tests
 ------------------------------
@@ -14,14 +14,12 @@ This project uses SBT for its builds. SBT and the JVM must be installed for this
 sbt test
 ```
 
-Creating a Distributable Jar
-----------------------------
+Creating Library Jar
+--------------------
 
-The assembly task can be used to create a single JAR distribution of the bot. The
-bot can be executed with a simple ``java -jar`` command.
+These tasks can be used to create binary and source versions of the library:
 
 ``` bash
-sbt assembly
-java -jar target/scala-2.11/battlebot_scala-assembly-1.0.jar
+sbt package packageSrc
 ```
 

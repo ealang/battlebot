@@ -1,9 +1,0 @@
-language: scala
-scala:
-- 2.11.7
-sudo: false
-script: "sbt clean coverage test"
-after_success: "sbt coveralls"
-env:
-  global:
-    secure: V/c2gsuB9dbcvLfdH4QfYOAgaUCQmRna6+tiwt92wf+mR6lvncqMyrCguptg3DlQxz2EqlRHtkMOcdTr/qV8OdvbT6VaYUUSL+4gcWLDQdN00OutIsc39i0VUTcU7orFhkjH3045TIBo6qATOp5BKFxXlrnFe+0G8g5cFysLHQrlKfiwQVHjeRjt5lAf+5cjXuWDn66P2F/i27dFcRwEXcMgpAiTbM77BKJzRlVdI8GUiKfl3M/YTfVBfnlO59OULosCFaPZqtKRWKkcmp1Exo3qY/s1oNFDUO/sfdyMQp3wOdFXf/SViDZPUDvFR3aKjyp1RAP35VAv2RwbuW6XCyMhlgV5ejc9VxGjefrsqE80Zvt6gD87iXVsZzaKNwrrLWT2vFDVfHwvJWmiA92pArEL9vqsmFnLQTW0TdPgt8W0v+j63LRtCA/8WALdI+Y/SBNOgUW9CMbTOOO9j/GqJnCD1UNR8ZZRQrJuWxJRu2dJv76fyOAT/+q62ZRAKHhWg9869yy1QHLKx8a/ciQmirTAhq/V3PRl0to37Z0V6zOI9ME3r3ZB/fqrYh1VVM+1HALl3yR7eJT43Lu+AT7khkCm28X3Pln8Wj6sw01D5rM3ArERTAlgsIocTTJT3oyZfFZAtAxPUkSXqXocnc5aO3ncOSTrr3wAThT/JDOCIog=

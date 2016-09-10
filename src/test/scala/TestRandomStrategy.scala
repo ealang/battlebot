@@ -3,6 +3,13 @@ import com.jhood.battlebot._
 import scala.concurrent.Await
 import scala.concurrent.duration._
 
+class DumbMoveCalculator extends MoveCalculator {
+  def compute_play(hand: List[Card],myFlags: Map[Int,List[Card]], opponentFlags:  Map[Int,List[Card]], claimedFlags: Map[Int,Direction]): PlayCardResponse =
+    PlayCardResponse(1, Card("color1",1))
+}
+
+class RandomStrategy extends CalculatedStrategy("random", new DumbMoveCalculator)
+
 class TestRandomStrategy extends WordSpec with Matchers {
   val strategy = new RandomStrategy()
 
