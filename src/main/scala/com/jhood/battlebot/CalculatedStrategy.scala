@@ -42,7 +42,7 @@ class CalculatedStrategy(playerName: String, calc: MoveCalculator) extends Strat
         }
         None
       case PlayCard() => 
-        Some(calc.compute_play(hand,myFlags.toMap,opponentFlags.toMap, claimedFlags.toMap))
+        Some(calc.compute_play(myDirection, hand, myFlags.toMap, opponentFlags.toMap, claimedFlags.toMap))
       case _ => 
         None
     }
